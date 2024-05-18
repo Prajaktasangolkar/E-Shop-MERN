@@ -10,7 +10,7 @@ async function connectDB() {
     });
     console.log(`Database connected: ${url}`);
   } catch (err) {
-    console.error(err.message);
+    console.error('error in mb',err.message);
     process.exit(1);
   }
 

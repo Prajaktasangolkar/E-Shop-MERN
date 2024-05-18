@@ -2,15 +2,33 @@ import React, { useState } from 'react'
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from "../../styles/styles";
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
 
 function Login() {
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
     const [visible,setVisible]=useState(false)
 
-    const handleSubmit=()=>{
-
+    const handleSubmit=async (e)=>{
+         e.preventDefault();
+         try {
+      
+          const response = await axios.post(
+            "http://localhost:8000/api/auth/login",
+            { email, password },
+            { withCredentials: true }
+          );
+          const token = response.data;
+          console.log(token, "token");
+          console.log("login login");
+          if (response.status === 200) {
+            console.log("ok");
+            console.log('email',email);
+            // navigation("/game", { state: { username } }); // Pass username as state
+          }
+        } catch (error) {
+          console.log(error, "err3");
+        }
     }
   return (
 <>

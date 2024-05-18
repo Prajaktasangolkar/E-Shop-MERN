@@ -9,7 +9,8 @@ const PORT = 8000;
 const cookieParser=require('cookie-parser')
 const bodyParser=require('body-parser')
 const fileUpload=require('express-fileupload')
-
+const authRoute=require('./controller/auth.js')
+const path=require('path')
 connectDB();
 
 app.use(express.json());
@@ -23,6 +24,10 @@ app.use(cors({
     credentials: true,
 }));
 
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+
+app.use('/api/auth',authRoute)
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });

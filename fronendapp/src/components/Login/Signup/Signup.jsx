@@ -3,7 +3,7 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import styles from "../../../styles/styles";
 import { Link } from "react-router-dom";
 import { RxAvatar } from "react-icons/rx";
-
+import axios from 'axios';
 function Signup() {
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
@@ -11,12 +11,43 @@ function Signup() {
     const [visible, setVisible] = useState(false);
     const [avatar, setAvatar] = useState(null);
 
-    const handleSubmit=()=>{
+    const handleSubmit=async(e)=>{
+          e.preventDefault();
+          try {
+            
+      
+            const response = await axios.post(
+              "http://localhost:8000/api/auth/register",
+              { name,email,password },
+              {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true
+            }
+            );
+            const token = response.data;
+            console.log(token, "token");
+            console.log("registeration done.....");
+            if (response.status === 200) {
+              // console.log(error, "ok");
+              console.log('email',email);
+              // navigation("/game", { state: {  } }); // Pass username as state
+            }
+          } catch (error) {
+            console.log(error, "err3");
+            // setError("Something went wrong");
 
     }
-    const handleFileInputChange=()=>{
-
-    }
+  }
+  // const handleFileInputChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onloadend = () => {
+  //       setAvatar(reader.result);
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
   return (
     <>
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -101,7 +132,7 @@ function Signup() {
               </div>
             </div>
 
-            <div>
+            {/* <div>
               <label
                 htmlFor="avatar"
                 className="block text-sm font-medium text-gray-700"
@@ -133,7 +164,7 @@ function Signup() {
                   />
                 </label>
               </div>
-            </div>
+            </div> */}
 
             <div>
               <button
@@ -157,4 +188,4 @@ function Signup() {
   )
 }
 
-export default Signup
+export default Signup;
